@@ -1,7 +1,15 @@
 import streamlit as st
 import pandas as pd
 
-# ... (tu diccionario de líneas de crédito y otros datos)
+# Datos de las líneas de crédito (ajusta según tus necesidades)
+LINEAS_DE_CREDITO = {
+    "LoansiFlex": {
+        # ... tus datos
+    },
+    "Microflex": {
+        # ... tus datos
+    }
+}
 
 def calcular_cuota(monto, tasa_mensual, plazo):
     """Calcula la cuota mensual de un préstamo.
@@ -47,17 +55,26 @@ def crear_tabla_amortizacion(monto, tasa_mensual, plazo, cuota):
         data['Saldo'].append(saldo)
     return pd.DataFrame(data)
 
-# ... (resto del código)
+# Función principal de la aplicación
+def main():
+    # Título de la aplicación
+    st.title("Simulador de Crédito")
 
-# Botón de simulación estilizado
-if st.button("Simular"):
-    # ... (cálculos)
+    # Selección de la línea de crédito
+    tipo_credito = st.selectbox("Selecciona la Línea de Crédito", options=LINEAS_DE_CREDITO.keys())
+    detalles = LINEAS_DE_CREDITO[tipo_credito]
 
-    # Crear una tabla de amortización
-    tabla_amortizacion = crear_tabla_amortizacion(monto, detalles["tasa_mensual"] / 100, plazo, cuota)
-    st.dataframe(tabla_amortizacion)
+    # ... resto de tu código (entrada de datos, cálculos, etc.)
 
-    # Crear un gráfico simple (ejemplo)
-    fig = go.Figure(data=go.Scatter(x=list(range(1, plazo + 1)), y=tabla_amortizacion['Saldo']))
-    fig.update_layout(title='Evolución del Saldo', xaxis_title='Cuota', yaxis_title='Saldo')
-    st.plotly_chart(fig)
+    # Botón de simulación
+    if st.button("Simular"):
+        # ... tus cálculos
+
+        # Crear la tabla de amortización
+        tabla_amortizacion = crear_tabla_amortizacion(monto, detalles["tasa_mensual"] / 100, plazo, cuota)
+        st.dataframe(tabla_amortizacion)
+
+        # ... otros elementos visuales
+
+if __name__ == "__main__":
+    main()
